@@ -1,0 +1,57 @@
+{
+  "name": "smartystreets-js",
+  "version": "0.0.3",
+  "description": "JS client for SmartyStreets API. Address autocomplete and verification.",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "build-watch": "babel src --watch --out-dir lib",
+    "clear": "rm -rf ./lib ./coverage ./.nyc_output",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "nyc": "nyc npm test && nyc report --reporter=lcov",
+    "retest": "npm run clear && npm test",
+    "pretest": "npm run build",
+    "start": "npm test",
+    "test": "mocha",
+    "test-watch": "mocha --watch",
+    "update-D": "npm install --save-dev babel-cli@latest babel-preset-es2015@latest babel-preset-stage-0@latest babel-register@latest chai@latest chai-as-promised@latest coveralls@latest mocha@latest nyc@latest",
+    "watch": "npm run build-watch & npm run test-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joonhocho/smartystreets-js.git"
+  },
+  "keywords": [
+    "SmartyStreets",
+    "API",
+    "node",
+    "client",
+    "address",
+    "autocomplete",
+    "verification",
+    "validation"
+  ],
+  "author": "Joon Ho Cho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joonhocho/smartystreets-js/issues"
+  },
+  "homepage": "https://github.com/joonhocho/smartystreets-js#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "coveralls": "^2.13.0",
+    "dotenv": "^4.0.0",
+    "mocha": "^3.2.0",
+    "node-fetch": "^1.6.3",
+    "nyc": "^10.2.0"
+  }
+}
