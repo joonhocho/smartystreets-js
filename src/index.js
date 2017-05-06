@@ -51,6 +51,8 @@ const toJSON = (res) => {
   return res.json();
 };
 
+const matchAllowed = ['strict', 'range', 'invalid'];
+
 export default ({
   authId,
   authToken,
@@ -137,6 +139,22 @@ export default ({
       return val;
     };
 
+  const list = autoCorrectParams ?
+    (val, allowed) => {
+      if (val == null) return null;
+      if (allowed.indexOf(val) === -1) {
+        return null;
+      }
+      return val;
+    } :
+    (val, allowed, name) => {
+      if (val == null) return null;
+      if (allowed.indexOf(val) === -1) {
+        throw new Error(`${name} is invalid.`);
+      }
+      return val;
+    };
+
   const authIdAndAuthToken = `auth-id=${encodeURIComponent(authId)}&auth-token=${encodeURIComponent(authToken)}`;
 
 
@@ -201,7 +219,7 @@ export default ({
     // Because range and invalid are not compatible with freeform address input,
     // the strict match output strategy will be employed in those cases
     // regardless of the provided match output strategy value.
-    match = maxChars(match, 8, 'match');
+    match = list(match, matchAllowed);
 
     const query = [
       authIdAndAuthToken,
