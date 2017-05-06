@@ -1,6 +1,6 @@
 {
   "name": "smartystreets-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JS client for SmartyStreets API. Address autocomplete and verification.",
   "main": "lib/index.js",
   "directories": {

@@ -57,13 +57,14 @@ export default ({
   authId,
   authToken,
   autoCorrectParams = false,
+  referer,
 }) => {
   if (typeof fetch !== 'function') {
     throw new Error('global fetch() must be provided.');
   }
 
-  if (!authId || !authToken) {
-    throw new Error('Auth Id and Auth Token are required');
+  if (!(authId && (authToken || referer))) {
+    throw new Error('Auth Id and Auth Token / Referer are required');
   }
 
   const maxChars = autoCorrectParams ?
@@ -155,7 +156,10 @@ export default ({
       return val;
     };
 
-  const authIdAndAuthToken = `auth-id=${encodeURIComponent(authId)}&auth-token=${encodeURIComponent(authToken)}`;
+  const authIdAndAuthToken = [
+    authId && `auth-id=${encodeURIComponent(authId)}`,
+    authToken && `auth-token=${encodeURIComponent(authToken)}`,
+  ].filter(isSet).join('&');
 
 
   // street + city + state
@@ -237,12 +241,18 @@ export default ({
       match && `match=${encodeURIComponent(match)}`,
     ].filter(isSet).join('&');
 
+    const headers = {
+      'Content-Type': 'application/json',
+      Host: 'us-street.api.smartystreets.com',
+    };
+
+    if (referer) {
+      headers.Referer = referer;
+    }
+
     return fetch(`https://us-street.api.smartystreets.com/street-address?${query}`, {
       method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Host: 'us-street.api.smartystreets.com',
-      },
+      headers,
     }).then(toJSON);
   };
 
@@ -294,12 +304,18 @@ export default ({
       state_filter && state_filter.length && `state_filter=${encodeURIComponent(state_filter.join(','))}`,
     ].filter(isSet).join('&');
 
+    const headers = {
+      'Content-Type': 'application/json',
+      Host: 'us-autocomplete.api.smartystreets.com',
+    };
+
+    if (referer) {
+      headers.Referer = referer;
+    }
+
     return fetch(`https://us-autocomplete.api.smartystreets.com/suggest?${query}`, {
       method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Host: 'us-autocomplete.api.smartystreets.com',
-      },
+      headers,
     }).then(toJSON);
   };
 
@@ -389,12 +405,18 @@ export default ({
       postal_code && `postal_code=${encodeURIComponent(postal_code)}`,
     ].filter(isSet).join('&');
 
+    const headers = {
+      'Content-Type': 'application/json',
+      Host: 'international-street.api.smartystreets.com',
+    };
+
+    if (referer) {
+      headers.Referer = referer;
+    }
+
     return fetch(`https://international-street.api.smartystreets.com/verify?${query}`, {
       method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Host: 'international-street.api.smartystreets.com',
-      },
+      headers,
     }).then(toJSON);
   };
 

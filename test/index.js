@@ -9,7 +9,8 @@ describe('smartystreets', () => {
     internationalStreetSingle,
   } = smartystreets({
     authId: process.env.SMARTYSTREET_AUTH_ID,
-    authToken: process.env.SMARTYSTREET_AUTH_TOKEN,
+    // authToken: process.env.SMARTYSTREET_AUTH_TOKEN,
+    referer: process.env.SMARTYSTREET_REFERER,
   });
 
   it('usStreetSingle', (done) => {
