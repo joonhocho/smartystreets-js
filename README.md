@@ -17,14 +17,39 @@ npm install --save smartystreets-js
 
 ### Usage
 ```javascript
-import vcard from 'smartystreets-js';
+import smartystreets from 'smartystreets-js';
 
-const vcardContent = vcard({
-  name: {
-    familyName: 'Doe',
-    givenName: 'John',
-    middleName: 'Philip',
-    prefix: 'Dr.',
-    suffix: 'Jr.',
-  },
+const {
+  usStreetSingle,
+  usAutocomplete,
+  internationalStreetSingle,
+} = smartystreets({
+  authId: process.env.SMARTYSTREET_AUTH_ID,
+  authToken: process.env.SMARTYSTREET_AUTH_TOKEN,
+});
+
+usStreetSingle({
+  street: '3301 South Greenfield Rd',
+  city: 'Gilbert',
+  state: 'AZ',
+  zipcode: '85297',
+}).then((res) => {
+  console.log(res);
+});
+
+usAutocomplete({
+  prefix: '1600 amphitheatre pkwy',
+}).then((res) => {
+  console.log(res);
+});
+
+internationalStreetSingle({
+  country: 'Japan',
+  address1: 'きみ野 6-1-8',
+  locality: '大和市',
+  administrative_area: '神奈川県',
+  postal_code: '242-0001',
+}).then((res) => {
+  console.log(res);
+});
 ```
